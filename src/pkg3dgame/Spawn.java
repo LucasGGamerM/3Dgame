@@ -16,17 +16,19 @@ public class Spawn {
 
 	private Dialog dialog;
 
-	public Spawn(Handler handler, HUD hud, Dialog dialog)
+	private Game game;
+
+	public Spawn(Handler handler, HUD hud, Dialog dialog, Game game)
 	{
 		this.dialog = dialog;
 		this.handler = handler;
 		this.hud = hud;
+		this.game = game;
 		r = new Random();
 
 	}
 	public void tick()
 	{
-
 		if(Init == false)
 		{
 			handler.addObject(new Player(Game.WIDTH/2 - 32,Game.HEIGHT/2 - 32,ID.Player, handler));
@@ -38,14 +40,14 @@ public class Spawn {
 		if(scoreKeep == 10)
 		{
 			handler.addObject(new SmartEnemy(r.nextInt(Game.WIDTH - 30),r.nextInt(Game.HEIGHT - 30),ID.SmartEnemy, handler));
-			for(int j = 0; j < 5; j++)
+			for(int j = 0; j < 3 * HUD.Dif; j++)
 			{
 				handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH - 30),r.nextInt(Game.HEIGHT - 30),ID.BasicEnemy, handler));
 				handler.addObject(new Coin(r.nextInt(Game.WIDTH - 30),r.nextInt(Game.HEIGHT - 30),ID.Coin, handler));
 			}
 			if(IsBoss)
 			{
-				for(int k = 0; k < 10; k++)
+				for(int k = 0; k < 5 * HUD.Dif; k++)
 				{
 					handler.addObject(new Coin(r.nextInt(Game.WIDTH - 30),r.nextInt(Game.HEIGHT - 30),ID.Coin,handler) );
 				}
@@ -55,18 +57,19 @@ public class Spawn {
 
 		}else if(scoreKeep == 700)
 		{
-
+			System.out.println("Tryin to do shit");
 			hud.setLevel(hud.getLevel() + 1);
-			for(int i = 0; i < 5; i++)
+			for(int i = 0; i < 3 * HUD.Dif; i++)
 			{
 				handler.addObject(new FastEnemy(r.nextInt(Game.WIDTH - 30),r.nextInt(Game.HEIGHT - 30),ID.FastEnemy, handler));
 				handler.addObject(new CornerEnemy(0,0,ID.CornerEnemy, handler));
-				for(i = 0; i < 5; i++)
-				{
-					handler.addObject(new Coin(r.nextInt(Game.WIDTH - 30),r.nextInt(Game.HEIGHT - 30),ID.Coin,handler) );
-				}
+
 
 				System.out.println("Pondo Level 2");
+			}
+			for(int i = 0; i < 5; i++)
+			{
+				handler.addObject(new Coin(r.nextInt(Game.WIDTH - 30),r.nextInt(Game.HEIGHT - 30),ID.Coin,handler) );
 			}
 			if(IsBoss)
 			{

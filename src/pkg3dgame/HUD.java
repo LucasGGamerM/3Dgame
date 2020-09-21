@@ -30,6 +30,7 @@ public class HUD {
 
     private static boolean showBossHealth = false;
 
+    public static int Dif = 1;
 
     private Game game;
     
@@ -40,7 +41,22 @@ public class HUD {
     
     public void tick()
     {
-       
+        if(game.gameDificulty == Game.DIFICULTY.FACIL)
+        {
+            Dif = 1;
+        }else if(game.gameDificulty == Game.DIFICULTY.NORMAL)
+        {
+            Dif = 2;
+        }else if(game.gameDificulty == Game.DIFICULTY.DIFICIL)
+        {
+            Dif = 3;
+        }else if(game.gameDificulty == Game.DIFICULTY.INSANO)
+        {
+            Dif = 4;
+        }else if(game.gameDificulty == Game.DIFICULTY.BRUTAL)
+        {
+            Dif = 5;
+        }
         HEALTH = (int) Main.clamp(HEALTH, 0, 100);
        
         greenValue = (int) Main.clamp(greenValue, 0, 255);

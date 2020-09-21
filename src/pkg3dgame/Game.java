@@ -43,11 +43,20 @@ public class Game extends Canvas implements Runnable{
 
     public enum STATE {
         Dialog,
+        Option,
         Game,
         Lost,
         Menu
 
     }
+    public enum DIFICULTY {
+        FACIL,
+        NORMAL,
+        DIFICIL,
+        INSANO,
+        BRUTAL
+    }
+    public DIFICULTY gameDificulty = DIFICULTY.NORMAL;
 
     public STATE gameState = STATE.Menu;
 
@@ -64,7 +73,7 @@ public class Game extends Canvas implements Runnable{
 
         this.addKeyListener(new KeyInput(handler , this));
 
-        spawner = new Spawn(handler , hud, dialog);
+        spawner = new Spawn(handler , hud, dialog, this);
 
 
 
@@ -90,7 +99,7 @@ public class Game extends Canvas implements Runnable{
         HUD.setShowBossHealth(false);
         HUD.BOSSHEALTH = 100;
         hud.setScore(0);
-        spawner = new Spawn(handler , hud , dialog);
+        spawner = new Spawn(handler , hud , dialog, this);
     }
 
 
@@ -152,7 +161,7 @@ public class Game extends Canvas implements Runnable{
         	  hud.tick();
             spawner.tick();
 
-        }else if(gameState == STATE.Menu)
+        }else if(gameState == STATE.Menu || gameState == STATE.Lost || gameState == STATE.Option)
         {
         	 menu.tick();
         }else if(gameState == STATE.Dialog)
@@ -182,7 +191,7 @@ public class Game extends Canvas implements Runnable{
         {
         	hud.render(g);
         	handler.render(g);
-        }else if(gameState == STATE.Menu || gameState == STATE.Lost)
+        }else if(gameState == STATE.Menu || gameState == STATE.Lost || gameState == STATE.Option)
         {
        	  menu.render(g);
         }else if(gameState == STATE.Dialog)
@@ -201,7 +210,7 @@ public class Game extends Canvas implements Runnable{
     public static int getScale()
     {
 
-            return Game.HEIGHT / 800 + 1;
+            return Game.HEIGHT / 640 + 1;
 
 
     }
