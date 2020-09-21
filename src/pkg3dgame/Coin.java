@@ -10,7 +10,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 /**
- *
+ *    Testing pull requests
  * @author lucasgabrielpatriciodoamaral
  */
 public class Coin extends GameObject{
@@ -27,14 +27,14 @@ public class Coin extends GameObject{
         this.handler = handler;
         velX = 0;
         velY = 0;
-        System.out.println("before");
+
 
 
 
         ObjHei *= Game.getScale();
         ObjWid *= Game.getScale();
 
-        System.out.println("Foi criado");
+
 
 
 
@@ -50,16 +50,14 @@ public class Coin extends GameObject{
 
     public void tick()
     {
-        System.out.println("tick");
+
         x += velX * Game.getScale();
         y += velY * Game.getScale();
 
         ObjHei = 16 * Game.getScale();
         ObjWid = 16 * Game.getScale();
 
-        System.out.println("tick2");
 
-        System.out.println("tick3");
 
 
 
