@@ -1,0 +1,49 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package testesjogos;
+
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+
+/**
+ *
+ * @author root
+ */
+public class Cenario extends JFrame {
+    public Cenario(){
+        setSize(800, 600);
+        setResizable(false);        
+        setExtendedState(MAXIMIZED_BOTH);  
+        setTitle("Teste cenário");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File("/home/gustavo/foto.jpg"));
+            //g.drawImage(image, 1, 1, null); //posição inicial
+
+            //aqui desloco 400px para direita, se o boneco estivese no meio da tela, 
+            //criaria a ilusão de ele ter avançado no cenario em relação do drawimage anterior
+            g.drawImage(image, -400, 1, null);
+        } catch (IOException e) {
+        }
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        Cenario cen = new Cenario();
+        cen.setVisible(true);
+    }
+}
