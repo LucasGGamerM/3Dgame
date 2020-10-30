@@ -17,7 +17,7 @@ public enum ID {
     Player(),
     SmartEnemy(),
     Coin(),
-    Traill();
+    Trail();
 
 
 }

@@ -8,6 +8,7 @@ package pkg3dgame;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import pkg3dgame.Game.DIFICULTY;
 import pkg3dgame.Game.STATE;
 
 /**
@@ -24,24 +25,44 @@ public class HUD {
 
     private int redValue = 255;
     
-    private int score = 0;
+    private static int score = 0;
     
-    private int level = 1;
+    private static int level = 1;
 
     private static boolean showBossHealth = false;
 
+    public static int Dif = 1;
 
     private Game game;
+
+    private Spawn spawn;
     
-    public HUD(Game game)
+    public HUD(Game game, Spawn spawn)
     {
-    	this.game = game;
+        this.game = game;
+        this.spawn = spawn;
     }
     
     public void tick()
     {
-       
+        if(game.gameDificulty == Game.DIFICULTY.FACIL)
+        {
+            Dif = 1;
+        }else if(game.gameDificulty == Game.DIFICULTY.NORMAL)
+        {
+            Dif = 2;
+        }else if(game.gameDificulty == Game.DIFICULTY.DIFICIL)
+        {
+            Dif = 3;
+        }else if(game.gameDificulty == Game.DIFICULTY.INSANO)
+        {
+            Dif = 4;
+        }else if(game.gameDificulty == Game.DIFICULTY.BRUTAL)
+        {
+            Dif = 5;
+        }
         HEALTH = (int) Main.clamp(HEALTH, 0, 100);
+        BOSSHEALTH = (int) Main.clamp(BOSSHEALTH, 0, 100);
        
         greenValue = (int) Main.clamp(greenValue, 0, 255);
         greenValue = HEALTH * 2;
@@ -51,55 +72,67 @@ public class HUD {
         {
         	game.gameState = STATE.Lost;
         	
-        	
-        	
-        	
+        }
+        if(BOSSHEALTH == 0)
+        {
+            showBossHealth = false;
+            spawn.killAllEnemies(true, true);
+            BOSSHEALTH = 100;
+            HUD.Dif += 1;
+            
         }
     }
     public void render(Graphics g)
     {
         g.setColor(Color.gray);
-        g.fillRect(Game.WIDTH - 224 ,Game.HEIGHT - 64, 200, 32);
+        g.fillRect(Game.WIDTH - 224 + Game.addX,Game.HEIGHT - 64 + Game.addY, 200, 32);
         g.setColor(new Color(75,greenValue,0));
-        g.fillRect(Game.WIDTH - 220,Game.HEIGHT - 60 , (int) ((double)HEALTH * 1.92), 24);
+        g.fillRect(Game.WIDTH - 220 + Game.addX,Game.HEIGHT - 60 + Game.addY , (int) ((double)HEALTH * 1.92), 24);
 
 
 
         //desenha o Nível e a Pontuação
         g.setColor(Color.white);
-        g.drawString("Score: " + score, 10, Game.HEIGHT - 50);
-        g.drawString("Level: " + level, 10, Game.HEIGHT - 34);
+        g.drawString("Score: " + score, 10 + Game.addX, Game.HEIGHT - 50 + Game.addY);
+        g.drawString("Level: " + level, 10 + Game.addX, Game.HEIGHT - 34 + Game.addY);
         //codigo temporario que tira o jogador depois da vida dele cair a zero;
         
         if(showBossHealth)
         {
             g.setColor(Color.gray);
-            g.fillRect(10,10 , Game.WIDTH - 20, 32);
+            g.fillRect(10 + Game.addX,10  + Game.addY, Game.WIDTH - 20, 32);
             g.setColor(new Color(redValue,0,0));
-            g.fillRect(14, 14, (int) ((double)BOSSHEALTH * ((double)(Game.WIDTH - 28) /100)), 24);
+            g.fillRect(14 + Game.addX, 14 + Game.addY, (int) ((double)BOSSHEALTH * ((double)(Game.WIDTH - 28) /100)), 24);
         }
        
     }
-    public void setScore(int score)
+    public static void setScore(int score1)
     {
-    	this.score = score;
+    	score = score1;
     }
-    public int getScore()
+    public static int getScore()
     {
     	return score;
     }
-    public int getLevel()
+    public static int getLevel()
     {
     	return level;
     }
-    public void setLevel(int level) 
+    public static void setLevel(int level1) 
     {
-    	this.level = level;
+    	level = level1;
     }
 
     public static void setShowBossHealth(boolean a)
     {
         showBossHealth = a;
+    }
+    public static void reset()
+    {
+        setShowBossHealth(false);
+        HEALTH = 100;
+        BOSSHEALTH = 100;
+
     }
 
             

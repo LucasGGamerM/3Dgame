@@ -17,6 +17,7 @@ public abstract class GameObject {
     protected float  x,  y;
     protected ID id;
     protected float velX, velY;
+    protected int PosX, PosY;
     
     public GameObject(float x, float y, ID id)
     {
@@ -56,6 +57,16 @@ public abstract class GameObject {
     {
         return this.y;
     }
+    public int getPosY()
+    {
+        return this.PosY;
+    }
+    public int getPosX()
+    {
+        return this.PosX;
+    }
+
+
     public ID getID()
     {
         return this.id;

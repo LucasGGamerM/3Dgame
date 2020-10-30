@@ -10,8 +10,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 
-/**
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
+
+/** 
  *
  * @author lucasgabrielpatriciodoamaral
  */
@@ -20,12 +24,17 @@ public class Traill extends GameObject{
     private float alpha = 1;
     
     private Color color;
+
+    private AffineTransform at;
     
     private Handler handler;
+
+    private BufferedImage image = null;
     
     private int height;
     private int width;
     private float life;
+    private float startingLife;
     
     public void setW(boolean a) { } ;
     public void setS(boolean a) { } ;
@@ -40,12 +49,23 @@ public class Traill extends GameObject{
         
         this.width = width;
         this.height = height;
-        this.life = life;
+        this.startingLife = life;
         
+    }
+    public Traill(AffineTransform at, ID id, BufferedImage image, float life, Handler handler)
+    {
+        super((int)at.getTranslateX(), (int)at.getTranslateY(), id);
+        this.at = at;
+        this.image = image;
+        this.startingLife = life;
+        this.handler = handler;
+
+
     }
     
     public void tick()
     {
+        life = startingLife * Menu.TraillLife;
         if(alpha>life)
         {
             alpha -= (life - 0.001f);
@@ -64,11 +84,18 @@ public class Traill extends GameObject{
     public void render(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setComposite(makeTransparent(alpha));
-        g.setColor(color);
-        g.fillRect((int)x,(int) y, width , height );
-        g2d.setComposite(makeTransparent(1));
-        
+
+
+
+        if(image == null)
+        {
+            g2d.setComposite(makeTransparent(alpha));
+            g.setColor(color);
+            g.fillRect((int)x,(int) y, width , height );
+            g2d.setComposite(makeTransparent(1));
+        }else{
+            g2d.drawImage(Main.makeImageTranslucent(image, alpha), at, null);
+        }
     }
     private AlphaComposite makeTransparent(float Alpha)
     {

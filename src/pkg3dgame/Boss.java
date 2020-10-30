@@ -7,32 +7,53 @@ package pkg3dgame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.util.Random;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
+import static java.lang.Math.round;
 
 /**
  *
  * @author lucasgabrielpatriciodoamaral
  */
-public class Boss extends GameObject{
-
-    private Random r = new Random();
-
+public class Boss extends GameObject {
+    
     private Handler handler;
 
+    private Color color = Color.RED;
+
     private boolean Init = true;
+    
+    private int ActualImage;
 
     public int ObjWid = 64, ObjHei = 64;
 
     private int bossLevel = 0;
+    
+    private BufferedImage[] EnemyImage = new BufferedImage[2];
+    
+    private AffineTransform at  = AffineTransform.getTranslateInstance( (int) x ,(int) y);
+    
+    private int PosX, PosY;
 
     public Boss(int x , int y, ID id, Handler handler)
     {
         super(x,y,id);
+
         this.handler = handler;
         velX = 0;
         velY = 0;
+        PosX = round(x/Game.getScale());
+        PosY = round(y/Game.getYScale());
 
+        EnemyImage[0] = Main.LoadImage("./Basicenemy.png");
+        EnemyImage[1] = Main.LoadImage("./Basicenemydois.png");
+
+        
+        x += Game.addX;
+        y += Game.addY;
 
 
 
@@ -50,11 +71,14 @@ public class Boss extends GameObject{
     public void tick()
     {
         int i = 0;
-        x += velX * Game.getScale();
-        y += velY * Game.getScale();
+        PosX += velX;
+        PosY += velY;
 
-        ObjHei = 64 * Game.getScale();
-        ObjWid = 64 * Game.getScale();
+        x = PosX * Game.getScale();
+        y = PosY * Game.getYScale();
+
+        ObjHei = round(64 * Game.getYScale());
+        ObjWid = round(64 * Game.getScale());
         if(bossLevel != 0)
         {
             if(y <= 0 || y >= Game.HEIGHT - ObjHei) this.velY *= -1;
@@ -67,15 +91,15 @@ public class Boss extends GameObject{
         if(bossLevel == 0)
         {
             float diffX =  0;
-            float diffY =  y - 100;
+            float diffY =  PosY + 100;
 
-            double distance = Math.sqrt((x - (ObjWid / 2)) * (x - (ObjWid / 2)) + (y - 100) * y - (y - 100) * 100);
+            double distance = PosY - 100;
 
             velX = (float)  ((-1.0f/distance) * diffX);
             Main.clamp(velX , -3 , 3);
             velY = (float)  ((-1.0f/distance) * diffY);
             Main.clamp(velY , 2 , 3);
-            if(y >= 60)
+            if(PosY >= 40)
             {
                 velY = 0;
                 System.out.println("Trocando para o Level 1");
@@ -98,16 +122,27 @@ public class Boss extends GameObject{
 
         }
 
-
-        handler.addObject(new Traill((int)x, (int)y, ID.Traill, Color.red, ObjWid, ObjHei, 0.09f,handler));
-
+        x += Game.addX;
+        y += Game.addY;
+        
+        handler.addObject(new Traill((int) x, (int) y, ID.Trail, color, ObjWid, ObjHei, 0.05f, handler));
+       
     }
 
     public void render(Graphics g)
     {
-        g.setColor(Color.red);
-        g.fillRect((int)x,(int)y,ObjWid,ObjHei);
-
+    	at = AffineTransform.getTranslateInstance( (int) x ,(int) y);
+        at.scale(4 * Game.getScale(), 4 * Game.getScale());
+        
+        Graphics2D g2d = (Graphics2D) g;
+        if(velX > 0)
+        {
+        	ActualImage = 1;
+        }else {
+        	ActualImage = 0;
+        }
+        g2d.drawImage(EnemyImage[ActualImage], at, null);
+        
 
     }
     public void destroy(){}

@@ -34,6 +34,8 @@ public class KeyInput extends KeyAdapter{
     {
         
         int key = e.getKeyCode();
+
+        Game.Init = true;
         
         for(int i = 0; i < handler.object.size(); i++)
         {
@@ -49,7 +51,16 @@ public class KeyInput extends KeyAdapter{
                 if(key == KeyEvent.VK_D && game.gameState == STATE.Game)tempObject.setD(true);  
             }
         }
-        if(key == KeyEvent.VK_ESCAPE)game.gameState = STATE.Menu;
+        if(key == KeyEvent.VK_ESCAPE)
+        {
+            if(game.gameState == STATE.Menu)
+            {
+                game.gameState = STATE.Game;
+            }else{
+                game.gameState = STATE.Menu;
+            }
+        }
+        
         
     }
     public void keyReleased(KeyEvent e)

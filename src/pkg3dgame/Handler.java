@@ -14,8 +14,8 @@ import java.util.LinkedList;
  */
 public class Handler {
     
-	LinkedList<GameObject> object = new LinkedList<GameObject>();
-	
+    LinkedList<GameObject> object = new LinkedList<GameObject>();
+    
     public void reset()
     {
     	for(int i = 0; i < object.size();)
@@ -37,14 +37,15 @@ public class Handler {
              
          }
     }
-    
+    int k;
     public void render(Graphics g)
     {
+        organize();
         for(int i = 0; i < object.size(); i++)
         {
             GameObject tempObject = object.get(i);
              
-             tempObject.render(g);  
+            tempObject.render(g);  
              
         }
     }
@@ -52,11 +53,28 @@ public class Handler {
     public void addObject(GameObject object)
     {
         this.object.add(object);
+        k = this.object.size();
     }
     
     public void removeObject(GameObject object)
     {
         this.object.remove(object);
+    }
+    public void organize()
+    {
+        LinkedList<GameObject> render = new LinkedList<GameObject>();
+        for (int i = 0; i < object.size(); i++) {
+            GameObject tempObject = object.get(i);
+
+            if(tempObject.getID() == ID.Trail)
+            {
+                render.addFirst(tempObject);
+            }else{
+                render.addLast(tempObject);
+            }
+
+        }
+        object = render;
     }
     
 }
