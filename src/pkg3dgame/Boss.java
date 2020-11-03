@@ -26,13 +26,13 @@ public class Boss extends GameObject {
 
     private boolean Init = true;
     
-    private int ActualImage;
+    private boolean ActualImage;
 
     public int ObjWid = 64, ObjHei = 64;
 
     private int bossLevel = 0;
     
-    private BufferedImage[] EnemyImage = new BufferedImage[2];
+    private BufferedImage EnemyImage;
     
     private AffineTransform at  = AffineTransform.getTranslateInstance( (int) x ,(int) y);
     
@@ -48,9 +48,8 @@ public class Boss extends GameObject {
         PosX = round(x/Game.getScale());
         PosY = round(y/Game.getYScale());
 
-        EnemyImage[0] = Main.LoadImage("./Basicenemy.png");
-        EnemyImage[1] = Main.LoadImage("./Basicenemydois.png");
-
+        EnemyImage = Main.LoadImage("./Basicenemy.png");
+        
         
         x += Game.addX;
         y += Game.addY;
@@ -131,17 +130,21 @@ public class Boss extends GameObject {
 
     public void render(Graphics g)
     {
-    	at = AffineTransform.getTranslateInstance( (int) x ,(int) y);
-        at.scale(4 * Game.getScale(), 4 * Game.getScale());
         
-        Graphics2D g2d = (Graphics2D) g;
-        if(velX > 0)
-        {
-        	ActualImage = 1;
-        }else {
-        	ActualImage = 0;
+        if (velX > 0) {
+            ActualImage = true;
+        } else {
+            ActualImage = false;
         }
-        g2d.drawImage(EnemyImage[ActualImage], at, null);
+
+        at = AffineTransform.getTranslateInstance((int) x, (int) y);
+        at.scale(4f * Game.getScale(), 4f * Game.getScale());
+        Main.rotate(at, false, ActualImage, EnemyImage);
+        // at.rotate(Math.toDegrees(135));
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.drawImage(EnemyImage, at, null);
         
 
     }

@@ -23,11 +23,11 @@ public class Dialog {
 
     public void render(Graphics g)
     {
-      g.setColor(Color.WHITE);
+      //g.setColor(Color.WHITE);
 
-      g.fillRect(10, Game.HEIGHT - 90, Game.WIDTH -10 , Game.HEIGHT - 10);
+      //g.fillRect(10, Game.HEIGHT - 90, Game.WIDTH -10 , Game.HEIGHT - 10);
 
-      g.drawString(Dialog, 15 , 15);
+      //g.drawString(Dialog, 15 , 15);
     }
 
 

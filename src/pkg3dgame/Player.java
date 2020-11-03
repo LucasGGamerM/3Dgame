@@ -189,6 +189,7 @@ public class Player extends GameObject{
 
         at = AffineTransform.getTranslateInstance( (int) x,(int) y);
         at.scale(2 * Game.getScale(), 2 * Game.getYScale());
+        
 
         //triangle boincing in the player's head
         AffineTransform Tr =  AffineTransform.getTranslateInstance( (PosX + 2) * Game.getScale() + Game.addX,(PosY - seconds % 20 - 24) * Game.getYScale() + Game.addY);

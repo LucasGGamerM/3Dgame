@@ -60,7 +60,7 @@ public class Handler {
     {
         this.object.remove(object);
     }
-    public void organize()
+    private void organize()
     {
         LinkedList<GameObject> render = new LinkedList<GameObject>();
         for (int i = 0; i < object.size(); i++) {

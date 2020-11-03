@@ -1,8 +1,8 @@
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package pkg3dgame;
 
 import java.awt.*;
@@ -23,6 +23,7 @@ import static java.lang.Math.round;
      */
     private static final long serialVersionUID = 1L;
 
+    
     //private int Starting = 0;
 
     private int PosCenaX = 0, PosCenaY = 0;
@@ -35,7 +36,7 @@ import static java.lang.Math.round;
 
     public static boolean Init = false;
     public static boolean InitTwo = false;
-    public static boolean UmZero = false;
+    public static boolean FullScreen = false;
 
     private Handler handler;
 
@@ -47,17 +48,21 @@ import static java.lang.Math.round;
 
     private Dialog dialog;
 
+    public static Config config;
+
     private Window window;
+
+    public static boolean CanStartAnimation = false;
 
     public static BufferedImage StartImage;
 
     public static Audio mainSound;
 
     public static boolean SFX = false;
-     public static boolean Music = false;
+     public static boolean Music;
      
 
-    public static int master = 50;
+    public static int master;
 
     public static int addX = 0, addY = 0;
 
@@ -70,7 +75,7 @@ import static java.lang.Math.round;
         FACIL, NORMAL, DIFICIL, INSANO, BRUTAL
     }
 
-    public DIFICULTY gameDificulty = DIFICULTY.NORMAL;
+    public static DIFICULTY gameDificulty = DIFICULTY.NORMAL;
 
     public STATE gameState = STATE.Menu;
 
@@ -85,7 +90,12 @@ import static java.lang.Math.round;
 
         spawn = new Spawn(handler , hud, dialog, this);
 
+        
+
+        config = new Config("config.txt");
+        
         hud = new HUD(this, spawn);
+
 
         //teste de som 
         mainSound = new Audio("./MainSoundMenu.wav");
@@ -169,7 +179,7 @@ import static java.lang.Math.round;
             if(System.currentTimeMillis() - timer > 1000)
             {
                 timer += 1000;
-                System.out.println("FPS: " + frames);
+                //System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
@@ -177,18 +187,22 @@ import static java.lang.Math.round;
     }
     private void tick() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (!InitTwo) {
-            PosCenaY = (int) -(HEIGHT / getYScale());
+            PosCenaY = (int) -(HEIGHT / getYScale()) - 70;
             InitTwo = !false;
-            System.out.println(PosCenaY);
+            //System.out.println(PosCenaY);
         }
         
-        if(PosCenaY < 0 && Init == false)
+        
+        if (PosCenaY < 0 && Init == false && CanStartAnimation)
         {
             PosCenaY += 1;
+            
 
-        }else{
+        }else if(Init == true){
             PosCenaY = 0;
             Init = true;
+            
+            CanStartAnimation = false;
         }
         
 
@@ -235,7 +249,7 @@ import static java.lang.Math.round;
         addX = ((Window.getFrame().getWidth() - WIDTH) / 2) + round(PosCenaX * Game.getScale());
         addY = ((Window.getFrame().getHeight() - Window.Incremento - HEIGHT) / 2) + round(PosCenaY * Game.getYScale());
         
-        if (UmZero) {
+        if (FullScreen) {
             addY = ((Window.getFrame().getHeight() - HEIGHT) / 2) + PosCenaY;
         }
         

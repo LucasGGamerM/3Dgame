@@ -60,11 +60,21 @@ public class KeyInput extends KeyAdapter{
                 game.gameState = STATE.Menu;
             }
         }
+
+
+        if (key == KeyEvent.VK_K) 
+            game.gameState = STATE.Dialog;
+        
         
         
     }
     public void keyReleased(KeyEvent e)
     {
+        int key = e.getKeyCode();
+
+        if(key == KeyEvent.VK_K){
+            game.gameState = STATE.Game;
+        }
       
         
         for(int i = 0; i < handler.object.size(); i++)

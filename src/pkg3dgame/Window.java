@@ -59,13 +59,13 @@ public class Window extends Canvas {
         if((int)frame.getLocation().getY() == 0)
         {
             //System.out.println(frame.getSize());
-            Game.UmZero = true;
+            Game.FullScreen = true;
             return (int) frame.getLocation().getY();
         }else {
             //System.out.println(frame.getContentPane());
             //return (int)frame.getLocation().getY() + 23;
             //return (int) frame.getBounds().getY();
-            Game.UmZero = false;
+            Game.FullScreen = false;
             if(!Init)
             {
                 Scala = Game.HEIGHT;

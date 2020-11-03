@@ -26,9 +26,9 @@ public class BasicEnemy extends GameObject {
 
     private int ObjHei = 24, ObjWid = 24;
     
-    private BufferedImage[] EnemyImage = new BufferedImage[2];
+    private BufferedImage EnemyImage;
     
-    private int ActualImage;
+    private boolean ActualImage;
     
     private AffineTransform at  = AffineTransform.getTranslateInstance( (int) x ,(int) y);
 
@@ -41,8 +41,7 @@ public class BasicEnemy extends GameObject {
 
 
         this.handler = handler;
-        EnemyImage[0] = Main.LoadImage("./Basicenemy.png");
-        EnemyImage[1] = Main.LoadImage("./Basicenemydois.png");
+        EnemyImage = Main.LoadImage("./Basicenemy.png");
 
         velX = 5;
         velY = 5;
@@ -95,19 +94,23 @@ public class BasicEnemy extends GameObject {
     public void render(Graphics g)
     {
     	//g.setColor(color);
+        
         //g.fillRect((int)x,(int)y,ObjWid,ObjHei);
+        
+        if (velX > 0) {
+            ActualImage = true;
+        } else {
+            ActualImage = false;
+        }
         at = AffineTransform.getTranslateInstance( (int) x ,(int) y);
         at.scale(1.5f * Game.getScale(), 1.5f * Game.getScale());
+        Main.rotate(at, false, ActualImage, EnemyImage);
+        //at.rotate(Math.toDegrees(135));
         
         Graphics2D g2d = (Graphics2D) g;
-        if(velX > 0)
-        {
-        	ActualImage = 1;
-        }else {
-        	ActualImage = 0;
-        }
         
-        g2d.drawImage(EnemyImage[ActualImage], at, null);
+        
+        g2d.drawImage(EnemyImage, at, null);
         
     }
     
