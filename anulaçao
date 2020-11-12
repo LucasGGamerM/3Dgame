@@ -1,0 +1,41 @@
+public class AppletFormulario extends JPanel {
+	private Botao buttonSelecionarArquivo;
+
+	public AppletFormulario(final Map<String, String> parametros, final AssinarServico assinarServico, final Applet applet) {
+		this.buttonSelecionarArquivo = new Botao("Adicionar Arquivo(s)");
+		this.init();
+	}
+
+	public void init() {
+		this.montarLayout();
+	}
+
+	private void montarLayout() {
+		this.labelFONTE = new JLabel();
+		this.add(this.buttonSelecionarArquivo);
+		this.setBackground(new Color(0, 0, 0));
+		this.setBorder(new EmptyBorder(0,0,0,0));
+		buttonSelecionarArquivo.setBorderPainted(false);
+	}
+}
+
+public class Signthing extends JApplet {
+	private ProgressPanel jpProgress;
+	private Desktop jtpDesktop;
+
+	@Override
+	public void init() {
+		final JPanel jContentPane = new JPanel(new GridLayout(1, 1));
+		this.jtpDesktop = new Desktop(this.recuperarParametrosParaFormulario(), this);
+		jContentPane.add(this.jtpDesktop, "Center");
+		this.setSize(150, 30);
+		jContentPane.setBackground(null);
+		jContentPane.setBorder(null);
+		jContentPane.setSize(150, 30);
+		this.setContentPane(jContentPane);
+	}	
+}
+
+
+
+//so é necessario alter as variaveis usei essas de exemplo pois nao sabia oque vc queria alterar 
